@@ -336,7 +336,6 @@ export default function Products() {
         <Controller
           name="stock"
           control={control}
-          rules={{ min: { value: 1, message: 'Estoque não pode ser zero' } }}
           render={({ field: { value, onChange } }) => (
             <Input
               id="stock"

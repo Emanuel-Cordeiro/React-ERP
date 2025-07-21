@@ -72,6 +72,14 @@ export default function Orders() {
   const [dataGridRows, setDataGridRows] = useState<OrderProps[]>([]);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [shouldDeleteItem, setShouldDeleteItem] = useState(false);
+  const [paidFilter, setPaidFilter] = useState(true);
+  const [dateFilterStart, setDateFilterStart] = useState(
+    new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  );
+
+  const [dateFilterEnd, setDateFilterEnd] = useState(
+    new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  );
 
   const {
     showToastMessage,
@@ -90,7 +98,7 @@ export default function Orders() {
     { field: 'order_id', headerName: 'Número', width: 80 },
     { field: 'client_name', headerName: 'Cliente', width: 300 },
     {
-      field: 'delivery_date',
+      field: 'delivery_date_formatted',
       headerName: 'Entrega',
       width: 110,
     },
@@ -101,22 +109,26 @@ export default function Orders() {
     try {
       setIsLoading(true);
 
-      const { data } = await api.get('Pedido');
+      if (isEditable) setIsEditable(false);
+
+      const { data } = await api.get(
+        `Pedido/?startingDate=${dateFilterStart}&endingDate=${dateFilterEnd}&paid=${!paidFilter}`
+      );
 
       const rows = data.map((item: OrderProps, index: number) => ({
         id: index + 1,
         order_id: item.order_id,
         client_id: item.client_id,
         client_name: item.client_id + ' - ' + item.client_name,
-        delivery_date: new Date(item.delivery_date).toLocaleDateString(
-          'pt-BR',
-          {
-            timeZone: 'America/Sao_Paulo',
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        ),
+        delivery_date: new Date(item.delivery_date).toISOString().split('T')[0],
+        delivery_date_formatted: new Date(
+          item.delivery_date
+        ).toLocaleDateString('pt-BR', {
+          timeZone: 'America/Sao_Paulo',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }),
         observation: item.observation,
         paid: item.paid,
         total_value: item.total_value,
@@ -305,6 +317,55 @@ export default function Orders() {
   return (
     <FormProvider {...form}>
       <PageTitle>Pedidos</PageTitle>
+      <PageContainer>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            borderBottom: '1px solid white',
+            marginBottom: '20px',
+          }}
+        >
+          <Input
+            id="filter_date_start"
+            label="Entrega de"
+            width={140}
+            type={'date'}
+            value={dateFilterStart}
+            setValue={(value) => setDateFilterStart(value as string)}
+          />
+          <Input
+            id="filter_date_end"
+            label="Entrega até"
+            width={140}
+            type={'date'}
+            value={dateFilterEnd}
+            setValue={(value) => setDateFilterEnd(value as string)}
+          />
+          <div
+            style={{
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Switch
+              checked={paidFilter}
+              onChange={(_, checked) => setPaidFilter(checked)}
+            />
+            <h5 style={{ color: 'var(--font)' }}>Apenas pendentes</h5>
+          </div>
+
+          <div style={{ height: '30', marginLeft: '15px' }}>
+            <ButtonForm
+              title="Consultar"
+              handleFunction={loadOrders}
+              width={100}
+            />
+          </div>
+        </div>
+      </PageContainer>
 
       <PageContainer>
         <Controller
@@ -346,7 +407,8 @@ export default function Orders() {
             <Input
               id="delivery_date"
               label="Data de Entrega"
-              width={130}
+              width={150}
+              type={'date'}
               value={value}
               setValue={onChange}
               disabled={!isEditable}
@@ -400,7 +462,7 @@ export default function Orders() {
             <Input
               id="total_value"
               label="Valor Total"
-              width={130}
+              width={150}
               value={value}
               setValue={onChange}
               disabled
