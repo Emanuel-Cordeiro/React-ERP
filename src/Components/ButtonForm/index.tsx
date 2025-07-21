@@ -11,11 +11,12 @@ export default function ButtonForm({
   handleFunction,
   width = 100,
   loading = false,
+  ...rest
 }: ButtonFormProps) {
   return (
     <Button
       onClick={handleFunction}
-      sx={{ marginRight: 2, textTransform: 'none', width: width }}
+      sx={{ marginRight: 2, textTransform: 'none', width: width, ...rest }}
       variant="contained"
       loading={loading}
     >
