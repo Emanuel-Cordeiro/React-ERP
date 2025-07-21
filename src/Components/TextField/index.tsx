@@ -9,6 +9,7 @@ interface InputProps {
   disabled?: boolean;
   size?: 'small' | 'medium';
   variant?: 'filled' | 'outlined' | 'standard';
+  type?: string;
 }
 
 export default function Input({
@@ -20,6 +21,7 @@ export default function Input({
   disabled = false,
   size = 'small',
   variant = 'outlined',
+  type = 'text',
 }: InputProps) {
   return (
     <TextField
@@ -30,6 +32,7 @@ export default function Input({
       required
       disabled={disabled}
       value={value}
+      type={type}
       focused
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
