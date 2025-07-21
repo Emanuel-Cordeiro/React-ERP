@@ -167,15 +167,17 @@ export default function Orders() {
       if (formData.itens.length === 0)
         throw new Error('É obrigatório informar itens.');
 
-      formData.itens = getValues('itens').map((item, index) => ({
-        product_id: item.product_id,
-        order_item_order: index + 1,
-        quantity: item.quantity,
-        price: item.price,
-        observation: item.observation,
-        description: item.description,
-        item_total_value: item.item_total_value,
-      }));
+      formData.itens = getValues('itens')
+        .filter((item) => item.product_id !== 0)
+        .map((item, index) => ({
+          product_id: item.product_id,
+          order_item_order: index + 1,
+          quantity: item.quantity,
+          price: item.price,
+          observation: item.observation,
+          description: item.description,
+          item_total_value: item.item_total_value,
+        }));
 
       const formatedDate = getValues('delivery_date').replace(
         /(\d{2})\/(\d{2})\/(\d{4})/,

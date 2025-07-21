@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
+import { GridFooterContainer } from '@mui/x-data-grid';
 import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
 import { Button, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
@@ -90,8 +91,8 @@ export default function OrderItemsDataGrid() {
     },
     {
       field: 'quantity',
-      headerName: 'Quantidade',
-      width: 120,
+      headerName: 'Qtde.',
+      width: 80,
       editable: true,
     },
     {
@@ -281,9 +282,26 @@ export default function OrderItemsDataGrid() {
   useEffect(() => {
     loadItensSelect();
     loadDataGridItens();
-    addNewRow();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function AddItemButton() {
+    return (
+      <GridFooterContainer>
+        <Button
+          sx={{
+            margin: '10px',
+            backgroundColor: '#d7ffc6',
+            color: 'green',
+            fontSize: '15px',
+          }}
+          onClick={() => addNewRow()}
+        >
+          Adicionar item
+        </Button>
+      </GridFooterContainer>
+    );
+  }
 
   return (
     <DataGrid
@@ -292,13 +310,16 @@ export default function OrderItemsDataGrid() {
       initialState={{
         pagination: {
           paginationModel: {
-            pageSize: 5,
+            pageSize: 30,
           },
         },
       }}
-      pageSizeOptions={[5]}
+      pageSizeOptions={[30]}
       disableRowSelectionOnClick
       onCellKeyDown={handleKeyDown}
+      slots={{
+        footer: AddItemButton,
+      }}
       processRowUpdate={handleProcessRowUpdate}
       sx={{
         '& .MuiDataGrid-columnHeaders': {
