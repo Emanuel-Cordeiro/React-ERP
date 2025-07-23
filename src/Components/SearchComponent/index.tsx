@@ -15,6 +15,7 @@ interface SearchComponentProps {
   value: string | undefined;
   setValue: (value: unknown) => void;
   type: string;
+  required?: boolean;
 }
 
 export default function SearchComponent({

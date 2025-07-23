@@ -264,6 +264,7 @@ export default function Products() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -280,6 +281,7 @@ export default function Products() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -314,6 +316,7 @@ export default function Products() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />

@@ -270,6 +270,7 @@ export default function Recipes() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />

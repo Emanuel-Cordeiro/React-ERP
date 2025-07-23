@@ -294,6 +294,7 @@ export default function OrderItemsDataGrid() {
             backgroundColor: '#d7ffc6',
             color: 'green',
             fontSize: '15px',
+            textTransform: 'none',
           }}
           onClick={() => addNewRow()}
         >

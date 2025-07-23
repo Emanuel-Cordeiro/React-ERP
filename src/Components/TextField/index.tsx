@@ -10,6 +10,7 @@ interface InputProps {
   size?: 'small' | 'medium';
   variant?: 'filled' | 'outlined' | 'standard';
   type?: string;
+  required?: boolean;
 }
 
 export default function Input({
@@ -22,6 +23,7 @@ export default function Input({
   size = 'small',
   variant = 'outlined',
   type = 'text',
+  required = false,
 }: InputProps) {
   return (
     <TextField
@@ -29,7 +31,7 @@ export default function Input({
       label={label}
       variant={variant}
       size={size}
-      required
+      required={required}
       disabled={disabled}
       value={value}
       type={type}

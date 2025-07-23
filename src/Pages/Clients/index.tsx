@@ -255,6 +255,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -271,6 +272,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -289,6 +291,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -305,6 +308,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -321,6 +325,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />
@@ -337,6 +342,7 @@ export default function Clients() {
               value={value}
               setValue={onChange}
               disabled={!isEditable}
+              required
             />
           )}
         />

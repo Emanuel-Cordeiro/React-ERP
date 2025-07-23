@@ -9,6 +9,7 @@ interface SelectInputProps {
   value: string | undefined;
   setValue: (value: unknown) => void;
   width: number;
+  required?: boolean;
 }
 
 export function SelectInput({
@@ -20,6 +21,7 @@ export function SelectInput({
   disabled = false,
   size = 'small',
   variant = 'outlined',
+  required = false,
 }: SelectInputProps) {
   const units = ['UN', 'KG', 'CT', 'LT', 'ML', 'GR', 'DZ'];
 
@@ -30,7 +32,7 @@ export function SelectInput({
       label={label}
       variant={variant}
       size={size}
-      required
+      required={required}
       disabled={disabled}
       value={value}
       focused
