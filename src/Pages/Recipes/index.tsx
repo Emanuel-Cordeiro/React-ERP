@@ -16,6 +16,7 @@ interface RecipeIngredientProps {
   ingredient_id?: number;
   description: string;
   quantity: number;
+  unity: string;
   cost: number;
 }
 

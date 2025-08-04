@@ -36,6 +36,7 @@ export default function Input({
       value={value}
       type={type}
       focused
+      autoComplete="off"
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
       }}

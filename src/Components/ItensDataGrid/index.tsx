@@ -2,7 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { DataGrid, GridColDef, GridEventListener } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridEventListener,
+  GridFooterContainer,
+} from '@mui/x-data-grid';
 import { Button, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 import api from '../../Services/api';
@@ -14,6 +19,7 @@ interface ItensProps {
   ingredient_id?: number;
   description: string;
   quantity: number;
+  unity: string;
   cost: number;
   selectedItem?: number | '';
 }
@@ -23,6 +29,7 @@ interface SelectItemProps {
   ingredient_id: number;
   description: string;
   quantity: number;
+  unity: string;
   cost: number;
 }
 
@@ -75,6 +82,12 @@ export default function ItensDataGrid() {
       editable: true,
     },
     {
+      field: 'unity',
+      headerName: 'Un.',
+      width: 100,
+      editable: true,
+    },
+    {
       field: 'cost',
       headerName: 'Custo',
       width: 100,
@@ -110,6 +123,7 @@ export default function ItensDataGrid() {
         id: index + 1,
         ingredient_id: item.ingredient_id,
         description: item.description,
+        unity: item.unity,
         cost: item.cost,
       }));
 
@@ -146,6 +160,7 @@ export default function ItensDataGrid() {
         ingredient_id: selectedIngredient?.ingredient_id || 0,
         description: selectedIngredient?.description || '',
         quantity: 1,
+        unity: selectedIngredient?.unity || '',
         cost: selectedIngredient?.cost || 0,
         selectedItem: selectedId,
       };
@@ -168,6 +183,7 @@ export default function ItensDataGrid() {
         ingredient_id: item.ingredient_id,
         description: item.description,
         quantity: item.quantity,
+        unity: item.unity,
         cost: item.cost,
         selectedItem: item.ingredient_id,
       }));
@@ -186,6 +202,7 @@ export default function ItensDataGrid() {
         id: prevRows.length + 1 || 0,
         description: '',
         quantity: 1,
+        unity: '',
         selectedItem: '',
         cost: 0,
       },
@@ -234,9 +251,27 @@ export default function ItensDataGrid() {
   useEffect(() => {
     loadItensSelect();
     loadDataGridItens();
-    addNewRow();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function AddItemButton() {
+    return (
+      <GridFooterContainer>
+        <Button
+          sx={{
+            margin: '10px',
+            backgroundColor: '#d7ffc6',
+            color: 'green',
+            fontSize: '15px',
+            textTransform: 'none',
+          }}
+          onClick={() => addNewRow()}
+        >
+          Adicionar item
+        </Button>
+      </GridFooterContainer>
+    );
+  }
 
   return (
     <DataGrid
@@ -249,9 +284,12 @@ export default function ItensDataGrid() {
           },
         },
       }}
-      pageSizeOptions={[5]}
+      pageSizeOptions={[10]}
       disableRowSelectionOnClick
       onCellKeyDown={handleKeyDown}
+      slots={{
+        footer: AddItemButton,
+      }}
       processRowUpdate={handleProcessRowUpdate}
       sx={{
         '& .MuiDataGrid-columnHeaders': {
