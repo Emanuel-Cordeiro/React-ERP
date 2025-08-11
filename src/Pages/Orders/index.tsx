@@ -172,7 +172,7 @@ export default function Orders() {
         .map((item, index) => ({
           product_id: item.product_id,
           order_item_order: index + 1,
-          quantity: item.quantity,
+          quantity: Number(item.quantity.toString().replace(',', '.')),
           price: item.price,
           observation: item.observation,
           description: item.description,

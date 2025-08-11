@@ -99,13 +99,16 @@ export default function Recipes() {
 
       if (isNewRecord) delete formData.recipe_id;
 
-      let cost = 0;
-
       if (formData.itens.length === 0)
         throw new Error('É obrigatório informar itens.');
 
+      let cost = 0;
+
       for (let i = 0; i < formData.itens.length; i++) {
         cost += formData.itens[i].cost * formData.itens[i].quantity;
+        formData.itens[i].quantity = Number(
+          formData.itens[i].quantity.toString().replace(',', '.')
+        );
       }
 
       formData.cost = cost;
