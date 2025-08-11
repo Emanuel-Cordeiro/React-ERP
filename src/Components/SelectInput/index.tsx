@@ -63,7 +63,7 @@ export function SelectInput({
         input: { color: 'var(--font) !important' },
         label: { color: 'var(--font) !important' },
         '& .MuiSelect-select': {
-          color: 'var(--font)', // selected value text color
+          color: 'var(--font)',
         },
         '& .MuiOutlinedInput-root': {
           '& fieldset': { borderColor: 'var(--font)' },

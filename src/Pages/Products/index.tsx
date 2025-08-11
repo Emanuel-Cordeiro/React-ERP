@@ -109,7 +109,7 @@ export default function Products() {
   async function handleRegisterProduct() {
     try {
       setIsLoadingButton(true);
-      //ajustar custo da receita
+
       const formData = { ...getValues() };
 
       if (isNewRecord) delete formData.product_id;
